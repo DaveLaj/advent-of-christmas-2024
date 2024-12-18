@@ -6,20 +6,18 @@ import (
 	"io"
 	"log"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	// ch := make(chan int, 5)
 	firstList := []int{}
 	secondList := []int{}
 
 	// doneScanning := make(chan bool)
 	// finalTotalDiff := make(chan int, 2)
 
-	file, err := os.OpenFile("testcase1.txt", os.O_RDONLY, 0644)
+	file, err := os.OpenFile("testcase2.txt", os.O_RDONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -55,30 +53,20 @@ func main() {
 
 	if err := scanner.Err(); err != nil {
 		log.Fatalf("error during scanning: %v", err)
-	} else {
-		fmt.Println("Reached EOF")
 	}
 
-	sort.Slice(firstList, func(i, j int) bool {
-		return firstList[i] < firstList[j]
-	})
-
-	sort.Slice(secondList, func(i, j int) bool {
-		return secondList[i] < secondList[j]
-	})
-
-	var totalDiff int
-	for i := 0; i < len(firstList); i++ {
-		diff := firstList[i] - secondList[i]
-
-		if diff < 0 {
-			diff = -diff
-		}
-
-		totalDiff += diff
+	rightMap := make(map[int]int)
+	for _, r := range secondList {
+		rightMap[r]++
 	}
 
-	fmt.Println("Total diff:", totalDiff)
+	similarity := 0
+	for _, f := range firstList {
+		count := rightMap[f]
+		similarity += count * f
+	}
+
+	fmt.Println("Similarity Score: ", similarity)
 }
 
 func parseTwoInts(r *bufio.Reader) (int, int, error) {
