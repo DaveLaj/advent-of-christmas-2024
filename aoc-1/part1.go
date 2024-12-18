@@ -19,7 +19,7 @@ func main() {
 	// doneScanning := make(chan bool)
 	// finalTotalDiff := make(chan int, 2)
 
-	file, err := os.OpenFile("testcase.txt", os.O_RDONLY, 0644)
+	file, err := os.OpenFile("testcase1.txt", os.O_RDONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
